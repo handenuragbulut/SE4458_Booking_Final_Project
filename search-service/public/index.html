@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel Booking System</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Hotel Booking System</h1>
+        <div class="search-container">
+            <h2>Search Hotels</h2>
+            <form id="searchForm">
+                <input type="text" id="destination" placeholder="Destination" required>
+                <input type="date" id="startDate" required>
+                <input type="date" id="endDate" required>
+                <input type="number" id="people" placeholder="Number of People" required>
+                <button type="submit">Search</button>
+            </form>
+        </div>
+        <div class="results-container">
+            <h2>Available Hotels</h2>
+            <ul id="hotelList"></ul>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
