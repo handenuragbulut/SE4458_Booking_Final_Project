@@ -2,36 +2,16 @@ This is a booking hotel project
 
 4 services were used: admin, booking, notification, search.
 
-admin-service;
-In this file, an Express application has been created and secured with JWT-based authentication. Here are the important points in the file:
+Certainly! Here's a concise explanation with added technical details:
 
-The required modules were obtained with the require function: express, body-parser, jsonwebtoken, bcryptjs and dotenv. These modules were used for functions such as building the Express application, processing requests, and authentication.
+1. **Admin Service**: This component manages administrative functionalities such as adding and updating hotel rooms. It utilizes technologies like Express for handling HTTP requests, Sequelize for database ORM (Object-Relational Mapping) operations, and JWT (JSON Web Tokens) for user authentication. Sequelize synchronizes with the database using `sequelize.sync()` to ensure that the defined models (`User` and `Room`) are reflected as tables in the database. Endpoints like `/admin/addRoom` and `/admin/updateRoom/:id` are secured with JWT-based authentication through the `adminAuth` middleware.
 
-A database connection was established using Sequelize and two models named User and Room were defined. These models represent user and room information and form tables in the database.
+2. **API Gateway**: This module serves as a gateway for client requests to interact with the hotel reservation system. It is built using Express for handling HTTP requests, Mongoose for MongoDB ODM (Object-Document Mapping), and middleware like Body Parser for parsing JSON data. The connection to the MongoDB database is established using `mongoose.connect()` with the provided URL from the `.env` file. The `Room` schema defines the structure of hotel rooms, and the `Room` model is created using `mongoose.model()` to interact with the MongoDB collection. JWT-based authentication is implemented for administrative operations through the `adminAuth` middleware. The API provides endpoints like `/admin/addRoom` and `/admin/updateRoom/:id` for adding and updating rooms, respectively.
 
-An authentication middleware called adminAuth has been defined. This middleware provides JWT-based authentication. When a request is made, this middleware verifies the user's credentials and performs authorization operations.
+3. **Booking Service**: This service handles the booking process for hotel rooms. It is implemented using Express for creating an HTTP server, MongoDB for database operations, and Mongoose for defining schemas and models. The `Room` and `Booking` models represent hotel rooms and bookings, respectively. The `/book` endpoint allows users to make bookings by sending a POST request with the necessary details like `userId`, `roomId`, `startDate`, and `endDate`. The service checks room availability and updates room capacity upon successful bookings.
 
-Endpoints such as /admin/addRoom and /admin/updateRoom/:id are defined. These endpoints allow adding a new room and updating an existing room respectively. These operations can be performed by users with administrative privileges, and therefore the adminAuth middleware has been added to these endpoints.
+4. **Notification Service**: This service sends notifications to administrators about rooms with low capacity. It is built using Express for creating an HTTP server, Mongoose for MongoDB operations, and Node-Cron for scheduling tasks. The `cron.schedule()` function schedules a task to run at midnight (`'0 0 * * *'`) every day to check for rooms with a capacity lower than 20. If such rooms are found, notifications are logged to the console.
 
-The application has been initialized. Using the sequelize.sync() method, the database was synchronized and the application started listening on a specific port.
+5. **Search Service**: This service enables clients to search for available hotel rooms based on criteria like destination, date range, and the number of people. It is implemented using Express for handling HTTP requests, Mongoose for MongoDB interactions, and middleware like Body Parser for parsing request data. The `/hotels/search` endpoint allows clients to send a GET request with query parameters like `destination`, `startDate`, `endDate`, and `people` to search for available rooms. The service queries the database to find rooms that match the specified criteria and returns the results to the client.
 
-api-gateway
-This code creates a Node.js application and provides the API for a hotel reservation system using a MongoDB database. Its functionality can be explained as follows:
-
-Importing Modules: Necessary modules such as express, mongoose, body-parser, jsonwebtoken, bcryptjs and dotenv are being imported. These are used to create the Express application, connect to the MongoDB database, provide JWT-based authentication, and load the .env file.
-
-Creating the Express Application: An Express application is created with the express() function. By using body-parser, incoming requests are processed in JSON format.
-
-MongoDB Database Connection: Connecting to the MongoDB database with the mongoose.connect() function. The link URL is taken from the .env file.
-
-Defining the Room Schema: Creating a roomSchema for MongoDB. This diagram describes the features of hotel rooms.
-
-Creating the Room Model: A model named Room is created with mongoose.model(). This model is associated with the "Room" collection in MongoDB.
-
-Admin Authentication Middleware: A middleware named adminAuth is defined. This middleware does JWT-based authentication and checks if you have administrative rights.
-
-Room Add and Update Endpoints: Endpoints such as /admin/addRoom and /admin/updateRoom/:id are defined. These endpoints allow adding a new room and updating an existing room respectively. These operations can be performed by users with administrative privileges, and therefore the adminAuth middleware has been added to these endpoints.
-
-Starting the Application: With the app.listen() function, the application starts listening on a specific port. The port number is taken from the .env file.
-
-This code creates an API for a hotel reservation system using MongoDB. The administrator authenticates and allows adding new rooms and updating existing rooms.
+Overall, these services collectively form a robust hotel reservation system, encompassing administrative functionalities, user bookings, capacity monitoring, and hotel room searching capabilities.
